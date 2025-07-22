@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎯 TARGET 750+ 🔥</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #quiz-controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #quiz-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .question {
+      padding: 15px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .question-title {
+      color: green;
+      margin-bottom: 10px;
+    }
+    .options label {
+      display: block;
+      background-color: #f0f0f0;
+      margin: 4px 0;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .answer-check {
+      display: none;
+      margin-top: 10px;
+    }
+    .answer-check label {
+      margin-right: 10px;
+    }
+    .answer-check .correct-options {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    #submit-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    #result {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 768px) {
+      #quiz-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 TARGET 750+ 🔥</h1>
+  <div id="result"></div>
+  <div id="quiz-controls">
+    <button id="submit-btn">Submit</button>
+  </div>
+  <div id="quiz-container"></div>
+
+  <script>
+    const quizContainer = document.getElementById('quiz-container');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultDiv = document.getElementById('result');
+
+    for (let i = 1; i <= 100; i++) {
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question';
+
+      const title = document.createElement('div');
+      title.className = 'question-title';
+      title.textContent = `Question ${i}`;
+      questionDiv.appendChild(title);
+
+      const optionsDiv = document.createElement('div');
+      optionsDiv.className = 'options';
+
+      ['A', 'B', 'C', 'D'].forEach(option => {
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = `q${i}`;
+        input.value = option;
+        label.appendChild(input);
+
+        const optionText = document.createElement('span');
+        optionText.style.color = 'blue';
+        optionText.textContent = ` ${option}`;
+        label.appendChild(optionText);
+
+        optionsDiv.appendChild(label);
+      });
+
+      questionDiv.appendChild(optionsDiv);
+
+      const answerCheck = document.createElement('div');
+      answerCheck.className = 'answer-check';
+      const answerLabel = document.createElement('div');
+      answerLabel.textContent = 'Correct Answer:';
+      answerCheck.appendChild(answerLabel);
+
+      const correctOptionsDiv = document.createElement('div');
+      correctOptionsDiv.className = 'correct-options';
+
+      ['A', 'B', 'C', 'D'].forEach(opt => {
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'radio';
+        checkbox.name = `correct-q${i}`;
+        checkbox.value = opt;
+        checkbox.disabled = true;
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(opt));
+        correctOptionsDiv.appendChild(label);
+      });
+
+      answerCheck.appendChild(correctOptionsDiv);
+      questionDiv.appendChild(answerCheck);
+
+      quizContainer.appendChild(questionDiv);
+    }
+
+    submitBtn.addEventListener('click', () => {
+      const allChecks = document.querySelectorAll('.answer-check');
+      allChecks.forEach(el => el.style.display = 'block');
+
+      const allCorrectRadios = document.querySelectorAll('.answer-check input[type="radio"]');
+      allCorrectRadios.forEach(input => {
+        input.disabled = false;
+      });
+
+      for (let i = 1; i <= 100; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        radios.forEach(r => r.disabled = true);
+      }
+
+      const allCorrectGroups = [...new Set([...allCorrectRadios].map(r => r.name))];
+      allCorrectGroups.forEach(group => {
+        document.querySelectorAll(`input[name="${group}"]`).forEach(input => {
+          input.addEventListener('change', () => {
+            let correctCount = 0;
+            for (let i = 1; i <= 100; i++) {
+              const selected = document.querySelector(`input[name="q${i}"]:checked`);
+              const correct = document.querySelector(`input[name="correct-q${i}"]:checked`);
+              if (selected && correct && selected.value === correct.value) {
+                correctCount++;
+              }
+            }
+            resultDiv.textContent = `You got ${correctCount}/100 correct.`;
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
