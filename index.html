@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,6 +71,12 @@
       font-size: 18px;
       font-weight: bold;
       margin-bottom: 10px;
+    }
+    .correct {
+      background-color: #c8f7c5 !important;
+    }
+    .incorrect {
+      background-color: #f7c5c5 !important;
     }
     @media (max-width: 768px) {
       #quiz-container {
@@ -172,8 +177,17 @@
             for (let i = 1; i <= 100; i++) {
               const selected = document.querySelector(`input[name="q${i}"]:checked`);
               const correct = document.querySelector(`input[name="correct-q${i}"]:checked`);
-              if (selected && correct && selected.value === correct.value) {
-                correctCount++;
+
+              const options = document.querySelectorAll(`input[name="q${i}"]`);
+              options.forEach(opt => opt.parentElement.classList.remove('correct', 'incorrect'));
+
+              if (selected && correct) {
+                if (selected.value === correct.value) {
+                  correctCount++;
+                  selected.parentElement.classList.add('correct');
+                } else {
+                  selected.parentElement.classList.add('incorrect');
+                }
               }
             }
             resultDiv.textContent = `You got ${correctCount}/100 correct.`;
